@@ -1,11 +1,12 @@
-"use strict"
+"use strict";
 /*store element in Constants*/
 const BK = document.getElementById("bk"), HIN = document.getElementById("hin"), HINT = document.getElementById("hint"), FIF = document.getElementById("fif"), SK = document.getElementById("sk"),
     NX = document.getElementById("nx"), SU = document.getElementById("su"), NAV = document.getElementById("nav"), ANSWER = document.getElementById("answer"), TIMEBOX = document.getElementById("timebox"), RESET = [document.getElementById("reset"), document.querySelector("#reset>button:first-child"), document.querySelector("#reset>button:last-child")], CATEGORIES = document.getElementById("categories"),
     QUEST = document.getElementById("quest"), TIMER = document.getElementById("time"), page = document.getElementById("page"),
-    ATT = document.querySelector(".att");
+    ATT = document.querySelector(".att"), HINT_IN = document.createElement('h2');
+HINT_IN.id = "hintIn";
 /*declare variable*/
-var i = null, point = 0, sec = 0, interval, fiftyon = false, usedhint = false, q, len, quiz = {}, name, attall, saved;
+let i = null, point = 0, sec = 0, interval, fiftyon = false, usedhint = false, q, len, quiz = {}, name, attall, saved;
 /*let user jump to any page*/
 page.addEventListener("keyup", function (event) {
     if (event.keyCode === 13) {
@@ -20,6 +21,7 @@ page.addEventListener("keyup", function (event) {
             case len - 2:
             case len - 1: BK.style.visibility = "visible";
             case 1: if (i === len) {
+                HINT.appendChild(HINT_IN);
                 HINT.innerHTML = '<h2 id ="hintIn"></h2>';
                 SK.style.visibility = "visible";
                 FIF.style.visibility = "visible";
@@ -32,7 +34,7 @@ page.addEventListener("keyup", function (event) {
                 break;
             default: if (num > 1 && num <= len - 3) {
                 if (i === len) {
-		    HINT.innerHTML = '<h2 id ="hintIn"></h2>';
+                    HINT.appendChild(HINT_IN);
                     SK.style.visibility = "visible";
                     FIF.style.visibility = "visible";
                     HIN.style.visibility = "visible";
@@ -117,8 +119,8 @@ if (window.location.protocol === "file:") {
     alert("some of the function will not appear on local file please use live server to see additional function");
 }
 /*warn user not to search for answer*/
-window.addEventListener("contextmenu", function (e) { alert("Do not search for answer!"); e.preventDefault(); });
-window.addEventListener("copy", function (e) { alert("Do not search for answer!"); e.preventDefault(); });
+//window.addEventListener("contextmenu", function (e) { alert("Do not search for answer!"); e.preventDefault(); });
+//window.addEventListener("copy", function (e) { alert("Do not search for answer!"); e.preventDefault(); });
 /*set class*/
 class MCQ {
     constructor(question = "", choices = [""], hint = "", answer = 0) {
@@ -250,15 +252,19 @@ document.getElementById("cat5").onclick = function () {
 function startMCQ() {
     name = prompt("Please enter your name")
     if (name && name != "null") {
-        HINT.innerHTML = '<h2 id ="hintIn"></h2>';
+        HINT.textContent = "";
+        HINT.appendChild(HINT_IN);
         i = 0;
         document.getElementById("name").textContent = name;
         len = quiz.getNumberOfQuestions()
-        let AttBox = "";
+        //let AttBox = "";
         for (let j = 0; j < len;) {
-            AttBox += '<span id="att' + j + '">' + ++j + '</span>';
+            //AttBox += '<span id="att' + j + '">' + ++j + '</span>';
+            let attBox = document.createElement("span");
+            attBox.id =  'att' + j;
+            attBox.textContent = ++j;
+            ATT.appendChild(attBox);
         }
-        ATT.innerHTML = AttBox;
         document.getElementById("pageno").textContent = "/" + (len + 1);
         document.getElementById("page").max = len + 1
         interval = setInterval("time()", 1000)
@@ -273,7 +279,7 @@ function startMCQ() {
 /*navigation buttons*/
 /*run this function if back is click */
 BK.onclick = function () {
-    if (i === len) { HINT.innerHTML = '<h2 id ="hintIn"></h2>' };
+    if (i === len) { HINT.appendChild(HINT_IN); };
     i--;
     quest()
 };
@@ -299,11 +305,11 @@ function quest() {
     page.value = (i + 1);
     /* if helplused is used*/
     switch (q.helpline) {
-        case 1: document.getElementById("hintIn").textContent = 'Hint:' + q.hint;
+        case 1: HINT_IN.textContent = 'Hint:' + q.hint;
         case 2: HIN.style.visibility = "hidden";
             FIF.style.visibility = "hidden";
             break;
-        default: document.getElementById("hintIn").textContent = "";
+        default: HINT_IN.textContent = "";
             HIN.style.visibility = "visible";
             if (q.choices.length > 2) { FIF.style.visibility = "visible"; }
     }
@@ -368,7 +374,7 @@ document.getElementById("pr").onclick = function () {
         TIMEBOX.style.display = "inline-block";
         document.title = store[0].title;
         TIMER.textContent = (Math.floor(store[0].sec / 60)) + ":" + pad(store[0].sec % 60);
-        HINT.innerHTML = "";
+        HINT.removeChild(HINT_IN);
         CATEGORIES.style.display = "none";
         let table = document.createElement('table');
         let thead = document.createElement('thead');
@@ -435,7 +441,7 @@ document.getElementById("pr").onclick = function () {
         tr.appendChild(td);
         tfoot.appendChild(tr);
         table.appendChild(tfoot)
-        HINT.textContent = '';
+        HINT.textContent = "";
         HINT.appendChild(table);
         RESET[0].style.display = "inline";
         let welldone = point > store.length ? "Well done! " + name : "Better luck next time";
@@ -564,7 +570,7 @@ RESET[1].onclick = function () {
             quiz = {};
             document.getElementById("su").style.display = "block"
             NX.style.display = "none"
-            document.getElementById("name").innerText = ""
+            document.getElementById("name").textContent = ""
             document.title = "Question";
             RESET[0].style.display = "none";
             CATEGORIES.style.display = "block";
