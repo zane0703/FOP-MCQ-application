@@ -22,7 +22,6 @@ page.addEventListener("keyup", function (event) {
             case len - 1: BK.style.visibility = "visible";
             case 1: if (i === len) {
                 HINT.appendChild(HINT_IN);
-                HINT.innerHTML = '<h2 id ="hintIn"></h2>';
                 SK.style.visibility = "visible";
                 FIF.style.visibility = "visible";
                 HIN.style.innerHTML = "";
@@ -159,7 +158,7 @@ class Quiz {
             case 1:
                 this.questionPool.push(new MCQ("Which part of the space tell how fast your monitor can refresh?", ["Frames Per Second", "Images per second", "Gigabit per second", "HDML"], "it short form is FPS", 1));
                 this.questionPool.push(new MCQ("What CPU architecture are used by most desktop PC?", ["intel", "X86", "ARM", "PowerPC"], "It in number", 2));
-                this.questionPool.push(new MCQ("What CPU architecture are used by most smartphone?", ["intel", "X86", "ARM", "PowerPC"], "first word is Advanced", 3));
+                this.questionPool.push(new MCQ("What CPU architecture are used by most smartphone?", ["intel", "X86", "ARM", "PowerPC"], "First word is Advanced", 3));
                 this.questionPool.push(new MCQ("What is the name of Kernel use by windows?", ["Linux.", "XNU", "MS-DOS", "Windows NT"], "key world \"new technology\"", 4));
                 this.questionPool.push(new MCQ("Which are the fastest connectors to connect from NVIDIA GPU to CPU?", ["NVLink", "PCI", "PCI Express", "AGP"], "Intel CPU do not support this interface.", 1));
                 this.questionPool.push(new MCQ("Is intel the only CPU maker?", ["true", "false"], "intel will be monopolize if it was true", 2))
@@ -305,22 +304,28 @@ function quest() {
     page.value = (i + 1);
     /* if helplused is used*/
     switch (q.helpline) {
-        case 1: HINT_IN.textContent = 'Hint:' + q.hint;
-        case 2: HIN.style.visibility = "hidden";
+        case 1: 
+            HINT_IN.textContent = 'Hint:' + q.hint;
+        case 2: 
+            HIN.style.visibility = "hidden";
             FIF.style.visibility = "hidden";
             break;
-        default: HINT_IN.textContent = "";
+        default: 
+            HINT_IN.textContent = "";
             HIN.style.visibility = "visible";
-            if (q.choices.length > 2) { FIF.style.visibility = "visible"; }
+            FIF.style.visibility = q.choices.length > 2? "visible":  "hidden";
     }
 
     /*show or hide buttom according page number*/
     switch (i) {
-        case 0: BK.style.visibility = "hidden";
+        case 0:
+            BK.style.visibility = "hidden";
             break;
-        case 1: BK.style.visibility = "visible";
+        case 1:
+            BK.style.visibility = "visible";
             break;
-        case len - 1: SK.style.visibility = "visible";
+        case len - 1: 
+            SK.style.visibility = "visible";
             NX.style.display = "inline";
             ANSWER.style.display = "block";
             SU.style.display = "none";
