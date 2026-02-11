@@ -273,7 +273,7 @@ function startMCQ() {
         ATT.style.display = "block";
         TIMEBOX.style.display = "inline-block";
         quest()
-    } else { navigator.vibrate(1000); setTimeout(function () { alert("Please enter a valid name"); }, 100) }
+    } else { navigator?.vibrate(1000); setTimeout(function () { alert("Please enter a valid name"); }, 100) }
 }
 /*navigation buttons*/
 /*run this function if back is click */
@@ -452,7 +452,7 @@ document.getElementById("pr").onclick = function () {
         let welldone = point > store.length ? "Well done! " + name : "Better luck next time";
         QUEST.innerText = `you score is ${point}/${store.length * 2} ${welldone}`;
     } else {
-        navigator.vibrate(1000)
+        navigator?.vibrate(1000)
         setTimeout(()=>{alert("sorry, Can't find result that are tag to this name")},100)        
     }
 
@@ -532,7 +532,7 @@ function summary() {
 }
 /*submit */
 SU.onclick = function () {
-    if (attall) { navigator.vibrate(1000) }
+    if (attall) { navigator?.vibrate(1000) }
     setTimeout(() => {
         if (confirm((attall ? "Warning! " + name + ", you have an unattempted question\n" : "") + "Are you sure you want to submit your answer?")) {
             i++
@@ -569,7 +569,7 @@ SU.onclick = function () {
 }
 /*reset the MCQ*/
 RESET[1].onclick = function () {
-    if (!saved) { navigator.vibrate(1000) }
+    if (!saved) { navigator?.vibrate(1000) }
     setTimeout(()=>{
         if (confirm((saved ? "" : "You have not saved your results\n") + "Are you sure you want to go back to the main screen")) {
             quiz = {};
