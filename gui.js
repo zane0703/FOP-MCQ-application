@@ -257,6 +257,7 @@ function startMCQ() {
         document.getElementById("name").textContent = name;
         len = quiz.getNumberOfQuestions()
         //let AttBox = "";
+        ATT.textContent = ""
         for (let j = 0; j < len;) {
             //AttBox += '<span id="att' + j + '">' + ++j + '</span>';
             let attBox = document.createElement("span");
